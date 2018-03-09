@@ -15,22 +15,24 @@ import java.util.UUID;
 /**
  * Created by jamiecraane on 02/12/2016.
  */
-public class LocationPersisterFunction implements RequestHandler<DeviceLocation, Void> {
+public class LocationPersisterFunction implements RequestHandler<DeviceLocation, String> {
     @Override
-    public Void handleRequest(final DeviceLocation input, final Context context) {
+    public String handleRequest(final DeviceLocation input, final Context context) {
         final AmazonDynamoDBClient client = new AmazonDynamoDBClient(new DefaultAWSCredentialsProviderChain());
         client.withRegion(Regions.US_EAST_1); // specify the region you created the table in.
         final DynamoDB dynamoDB = new DynamoDB(client);
 
+        String uuid = UUID.randomUUID().toString();
+
         System.out.println("input = " + input); // Pure for testing. Do not use System.out in production code
         final Table table = dynamoDB.getTable("DeviceLocation");
         final Item item = new Item()
-                .withPrimaryKey("id", UUID.randomUUID().toString()) // Every item gets a unique id
+                .withPrimaryKey("id", uuid) // Every item gets a unique id
                 .withString("deviceId", input.getDeviceId())
                 .withDouble("lat", input.getLat())
                 .withDouble("lng", input.getLng());
 
         table.putItem(item);
-        return null;
+        return uuid;
     }
 }

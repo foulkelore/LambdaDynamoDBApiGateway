@@ -21,7 +21,7 @@ public class RetrieveLocationFunction implements RequestHandler<RetrieveLocation
     @Override
     public RetrieveLocationResponse handleRequest(final RetrieveLocationRequest input, final Context context) {
         final AmazonDynamoDBClient client = new AmazonDynamoDBClient(new DefaultAWSCredentialsProviderChain());
-        client.withRegion(Regions.EU_CENTRAL_1); // specify the region you created the table in.
+        client.withRegion(Regions.US_EAST_1); // specify the region you created the table in.
         final DynamoDB dynamoDB = new DynamoDB(client);
 
         System.out.println("input = " + input); // Pure for testing. Do not use System.out in production code

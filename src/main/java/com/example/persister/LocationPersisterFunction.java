@@ -1,5 +1,6 @@
 package com.example.persister;
 
+import com.amazonaws.auth.DefaultAWSCredentialsProviderChain;
 import com.amazonaws.auth.EnvironmentVariableCredentialsProvider;
 import com.amazonaws.regions.Regions;
 import com.amazonaws.services.dynamodbv2.AmazonDynamoDBClient;
@@ -17,8 +18,8 @@ import java.util.UUID;
 public class LocationPersisterFunction implements RequestHandler<DeviceLocation, Void> {
     @Override
     public Void handleRequest(final DeviceLocation input, final Context context) {
-        final AmazonDynamoDBClient client = new AmazonDynamoDBClient(new EnvironmentVariableCredentialsProvider());
-        client.withRegion(Regions.EU_CENTRAL_1); // specify the region you created the table in.
+        final AmazonDynamoDBClient client = new AmazonDynamoDBClient(new DefaultAWSCredentialsProviderChain());
+        client.withRegion(Regions.US_EAST_1); // specify the region you created the table in.
         final DynamoDB dynamoDB = new DynamoDB(client);
 
         System.out.println("input = " + input); // Pure for testing. Do not use System.out in production code

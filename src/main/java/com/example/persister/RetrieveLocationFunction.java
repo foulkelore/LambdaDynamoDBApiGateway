@@ -1,5 +1,6 @@
 package com.example.persister;
 
+import com.amazonaws.auth.DefaultAWSCredentialsProviderChain;
 import com.amazonaws.auth.EnvironmentVariableCredentialsProvider;
 import com.amazonaws.regions.Regions;
 import com.amazonaws.services.dynamodbv2.AmazonDynamoDBClient;
@@ -19,7 +20,7 @@ public class RetrieveLocationFunction implements RequestHandler<RetrieveLocation
 
     @Override
     public RetrieveLocationResponse handleRequest(final RetrieveLocationRequest input, final Context context) {
-        final AmazonDynamoDBClient client = new AmazonDynamoDBClient(new EnvironmentVariableCredentialsProvider());
+        final AmazonDynamoDBClient client = new AmazonDynamoDBClient(new DefaultAWSCredentialsProviderChain());
         client.withRegion(Regions.EU_CENTRAL_1); // specify the region you created the table in.
         final DynamoDB dynamoDB = new DynamoDB(client);
 
